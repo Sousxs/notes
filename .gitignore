@@ -1,0 +1,4 @@
+# Ignore executables and IDE settings
+*.exe
+*.jar
+.vscode/

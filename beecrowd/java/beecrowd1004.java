@@ -6,7 +6,7 @@
 
 import java.util.Scanner;
 
-public class beecrowd1007 {
+public class beecrowd1004 {
     public static void main(String[] args) {
 		int A, B;
         int X;

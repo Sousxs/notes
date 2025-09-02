@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class beecrowd1007 {
     public static void main(String[] args) {
-		int A, B, C, D;;
+		int A, B, C, D;
 
         try (Scanner entrada = new Scanner (System.in)) {
             A = entrada.nextInt();

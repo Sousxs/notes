@@ -1,4 +1,7 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <string>
+#include <map>
+
 using namespace std;
 int lengthOfLongestSubstring(string s){
     map<char,int> result;

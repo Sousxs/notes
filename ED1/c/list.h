@@ -30,6 +30,43 @@ int consulta(lista l, int valor){
     }
     return -1;
 }
-
+int inserir(lista *l, int valor){
+    int i;
+    if (listaCheia(*l)) {
+        return 0;
+    }
+    if (l->fim < MAX_TAM - 1) {
+        l->fim++;
+        l->elem[l->fim] = valor;
+        return 1;
+    }
+    return 0;
+}
+int remover(lista *l, int valor){
+    int i, posicao;
+    if (listaVazia(*l)) {
+        return 0;
+    }
+    posicao = consulta(*l, valor);
+    if (posicao == -1) {
+        return 0;
+    }
+    for (i = posicao; i < l->fim; i++) {
+        l->elem[i] = l->elem[i + 1];
+    }
+    l->fim--;
+    return 1;
+}
+void imprimir(lista l){
+    int i;
+    if (listaVazia(l)) {
+        printf("Lista vazia\n");
+        return;
+    }
+    for (i = l.inicio; i <= l.fim; i++) {
+        printf("%d ", l.elem[i]);
+    }
+    printf("\n");
+}
 
 #endif

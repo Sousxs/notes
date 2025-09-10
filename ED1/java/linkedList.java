@@ -1,17 +1,20 @@
 package ED1.java;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
-public class arraylist {
+public class linkedList {
     public static void main(String[] args) {
-        ArrayList<String> carros = new ArrayList<>();
+        LinkedList<String> carros = new LinkedList<>();
         //adiciona elementos na lista
         carros.add("BMW");
-        carros.add(1,"Audi");
-        carros.add("Honda");
+        carros.addFirst("Audi");
+        carros.addFirst("Honda");
 
         //print o primeiro elemento da lista
-        System.out.println(carros.get(0));
+        System.out.println(carros.getFirst());
+        //retorno: Honda
+
+        System.out.println(carros.getLast());
         //retorno: BMW
 
         //remover elemento do meio
@@ -20,14 +23,11 @@ public class arraylist {
         //trocar nome do elemento
         carros.set(0, "Ferrari");
         carros.set(1, "Mercedes");
-
         System.out.println(carros);
-        //retorno: [Ferrari, Mercedes]
 
         //limpar a lista completa
         carros.clear();
-        
         System.out.println(carros);
-        //retorno: []
     }
+    
 }

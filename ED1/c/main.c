@@ -2,7 +2,7 @@
 #include "list.h"
 
 int main() {
-    List lista;
+    lista lista;
     init(&lista);
     insert(&lista, 10);
     insert(&lista, 20);

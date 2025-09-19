@@ -1,4 +1,13 @@
-#include "queue.h"
+#ifndef QUEUE_H
+#define QUEUE_H
+
+#define MAX_QUEUE 100
+
+typedef struct {
+    int itens[MAX_QUEUE];
+    int front;
+    int rear;
+} Queue;
 
 void init(Queue *q) {
     q->front = 0;
@@ -36,3 +45,6 @@ int front(Queue *q, int *valor) {
     *valor = q->itens[q->front];
     return 1;
 }
+
+
+#endif

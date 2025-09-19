@@ -1,4 +1,12 @@
-#include "stack.h"
+#ifndef STACK_H
+#define STACK_H
+
+#define MAX_STACK 100
+
+typedef struct {
+    int itens[MAX_STACK];
+    int top;
+} Stack;
 
 void init(Stack *p) {
     p->top = -1;
@@ -35,3 +43,5 @@ int top(Stack *p, int *valor) {
     *valor = p->itens[p->top];
     return 1;
 }
+
+#endif

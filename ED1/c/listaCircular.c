@@ -2,7 +2,7 @@
 // Aluno: Pedro Henrique Rocha Souza 
 // Matrícula: 20251002803735
 //
-//  listaCircular.c - Lista ordenada em vetor circular com busca binária
+// listaCircular.c - Lista ordenada em vetor circular com busca binária
 //
 //  1) Lista circular usando aritmética modular (%) para contornar índices
 //  2) Busca binária para consulta/posição de inserção

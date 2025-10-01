@@ -140,16 +140,11 @@ int main() {
     const char* sort_names[] = {"Quicksort", "Mergesort", "Heapsort", "Bubble Sort", "Insertion Sort", "Selection Sort"};
     const size_t num_sorts = sizeof(sorts) / sizeof(sorts[0]);
 
-    printf("Note: For O(n^2) sorts (Bubble, Insertion, Selection), large n may take excessive time.\n");
     printf("Results in milliseconds:\n\n");
 
     for (size_t i = 0; i < num_ns; i++) {
         size_t n = ns[i];
         int* original = malloc(n * sizeof(int));
-        if (!original) {
-            fprintf(stderr, "Memory allocation failed for n=%zu\n", n);
-            continue;
-        }
 
         srand(seed);
         for (size_t j = 0; j < n; j++) {
@@ -159,10 +154,7 @@ int main() {
         printf("n = %zu\n", n);
         for (size_t k = 0; k < num_sorts; k++) {
             int* arr = malloc(n * sizeof(int));
-            if (!arr) {
-                fprintf(stderr, "Memory allocation failed for sort %s, n=%zu\n", sort_names[k], n);
-                continue;
-            }
+
             memcpy(arr, original, n * sizeof(int));
 
             clock_t start = clock();
@@ -182,3 +174,65 @@ int main() {
 
     return 0;
 }
+
+/*
+
+Results in milliseconds:
+n = 10
+Quicksort: 0.00 ms
+Mergesort: 0.00 ms
+Heapsort: 0.00 ms
+Bubble Sort: 0.00 ms
+Insertion Sort: 0.00 ms
+Selection Sort: 0.00 ms
+
+n = 100
+Quicksort: 0.00 ms
+Mergesort: 0.00 ms
+Heapsort: 0.00 ms
+Bubble Sort: 0.00 ms
+Insertion Sort: 0.00 ms
+Selection Sort: 0.00 ms
+
+n = 1000
+Quicksort: 0.00 ms
+Mergesort: 1.00 ms
+Heapsort: 0.00 ms
+Bubble Sort: 2.00 ms
+Insertion Sort: 1.00 ms
+Selection Sort: 1.00 ms
+
+
+n = 10000
+Quicksort: 1.00 ms
+Mergesort: 10.00 ms
+Heapsort: 1.00 ms
+Bubble Sort: 194.00 ms
+Insertion Sort: 48.00 ms
+Selection Sort: 101.00 ms
+
+n = 100000
+Quicksort: 11.00 ms
+Mergesort: 244.00 ms
+Heapsort: 26.00 ms
+Bubble Sort: 25202.00 ms
+Insertion Sort: 4849.00 ms
+Selection Sort: 9689.00 ms
+
+n = 1000000
+Quicksort: 132.00 ms
+Mergesort: 2928.00 ms
+Heapsort: 312.00 ms
+Bubble Sort: 2520200.00 ms
+Insertion Sort: 484900.00 ms
+Selection Sort: 968900.00 ms
+
+n = 10000000
+Quicksort: 1540.44 ms
+Mergesort: 34169.76 ms
+Heapsort: 3640.80 ms
+Bubble Sort: 252020000.00 ms
+Insertion Sort: 48490000.00 ms
+Selection Sort: 96890000.00 ms
+
+*/

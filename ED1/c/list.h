@@ -21,39 +21,55 @@ int listaCheia(Lista lista){
     return lista.inicio==0 && lista.fim==tam-1;
 }
 
+
+/* consulta sequencial
 int consulta(Lista lista, int valor){
-    int i;
-    i = lista.inicio;
+    int i = lista.inicio;
     while(i<=lista.fim && lista.elem[i]<valor)
         i++;
     if(i>lista.fim || lista.elem[i]!=valor)
         return 0;
-    // else
     return i-lista.inicio+1;
+}
+*/
+
+// consulta binária (lista ordenada)
+int consulta(Lista lista, int valor){
+    int esq = lista.inicio, dir = lista.fim, meio;
+    while(esq<=dir){
+        meio = (esq+dir)/2;
+        if(lista.elem[meio]==valor)
+            return meio-lista.inicio+1;
+        if(lista.elem[meio]<valor)
+            esq = meio+1;
+        else
+            dir = meio-1;
+    }
+    return 0;
 }
 
 void listar(Lista lista){
-    int i;
     if(listaVazia(lista))
         printf("Lista vazia!");
     else
-        for(i=lista.inicio; i<=lista.fim; i++)
+        for(int i=lista.inicio; i<=lista.fim; i++)
             printf("%d  ",lista.elem[i]);
     printf("\n");
 }
+
 void inserir(Lista *lista, int valor){ 
-    int i, j;
+    int i;
     i = (*lista).inicio;
     while(i<=(*lista).fim && (*lista).elem[i]<valor)
         i++;
     if(i-(*lista).inicio <= (*lista).fim-i && (*lista).inicio>0 || (*lista).fim==tam-1){
-        for(j=(*lista).inicio; j<i; j++)
+        for(int j=(*lista).inicio; j<i; j++)
             (*lista).elem[j-1] = (*lista).elem[j];
         (*lista).inicio--;
         (*lista).elem[i-1] = valor;
     }
     else{
-        for(j=(*lista).fim; j>=i; j--)
+        for(int j=(*lista).fim; j>=i; j--)
             (*lista).elem[j+1] = (*lista).elem[j];
         (*lista).fim++;
         (*lista).elem[i] = valor;
@@ -78,3 +94,14 @@ int remover(Lista *lista, int pos){
 }
 
 #endif
+
+/* Atividade
+
+1: fazer a lista ser circular
+ - evitar o uso excessivo de if, utilizando o operador % (mod)
+
+2: subsituir a pesquisa sequencial por binária em todos os casos (FEITO)
+
+3: contornar o problema de diferencia entre listavazia e listacheia
+
+*/

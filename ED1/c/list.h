@@ -19,56 +19,44 @@ int listaVazia(lista l){
 int listaCheia(lista l){
     return l.fim == MAX_TAM - 1 && l.inicio == 0;
 }
-//consulta sequencial
-/*
-int consulta(lista l, int valor){
+
+int consulta(Lista lista, int valor){
     int i;
-    i = l.inicio;
-    while (i <= l.fim) {
-        if (l.elem[i] == valor) {
-            return i;
-        }
+    i = lista.inicio;
+    while(i<=lista.fim && lista.elem[i]<valor)
         i++;
-    }
-    return -1;
+    if(i>lista.fim || lista.elem[i]!=valor)
+        return 0;
+    // else
+    return i-lista.inicio+1;
 }
-*/
-//consulta binária
-int consulta(lista l, int valor){
-    int inicio = l.inicio;
-    int fim = l.fim;
-    int meio;
-    while(inicio <= fim){
-        meio = (inicio + fim) / 2;
-        if(l.elem[meio] == valor){
-            return meio;
-        } else if (l.elem[meio] < valor){
-            inicio = meio + 1;
-        } else {
-            fim = meio - 1;
-        }
-    }
-    return -1;
+
+void listar(Lista lista){
+    int i;
+    if(listaVazia(lista))
+        printf("Lista vazia!");
+    else
+        for(i=lista.inicio; i<=lista.fim; i++)
+            printf("%d  ",lista.elem[i]);
+    printf("\n");
 }
-void inserir(lista *l, int valor){
-   int i, j;
-   i = l->inicio;
-   while(i<=l->fim && l->elem[i]<valor){
-       i++;
-   }
-   if(i - l->inicio <= l->fim -i && l->inicio > 0 || l->fim == MAX_TAM -1){
-       for(j =l->inicio;j<i;j++){
-           l->elem[j-1]=l->elem[j];
-       }
-       l->inicio--;
-       l->elem[i-1]=valor;
-   } else {
-       for(j = l->fim; j >= i; j--){
-           l->elem[j+1] = l->elem[j];
-       }
-       l->fim++;
-       l->elem[i] = valor;
-   }
+void inserir(Lista *lista, int valor){ 
+    int i, j;
+    i = (*lista).inicio;
+    while(i<=(*lista).fim && (*lista).elem[i]<valor)
+        i++;
+    if(i-(*lista).inicio <= (*lista).fim-i && (*lista).inicio>0 || (*lista).fim==tam-1){
+        for(j=(*lista).inicio; j<i; j++)
+            (*lista).elem[j-1] = (*lista).elem[j];
+        (*lista).inicio--;
+        (*lista).elem[i-1] = valor;
+    }
+    else{
+        for(j=(*lista).fim; j>=i; j--)
+            (*lista).elem[j+1] = (*lista).elem[j];
+        (*lista).fim++;
+        (*lista).elem[i] = valor;
+    }
 }
 
 int remover(lista *lista, int pos){ /* A posição na lista (e não no vetor) a ser removida deve ser encontrada pela busca */
@@ -90,13 +78,3 @@ int remover(lista *lista, int pos){ /* A posição na lista (e não no vetor) a 
 }
 
 #endif
-
-/*
-
-Atividades/ Alterações
-1. fazer a lista ser circular
-    - evitar o uso de if, utilizando preferecialmente resto(%)
-2. implementar a função de busca binária
-
-3. contonar o problema de diferenciação de lista vazia e cheia
-*/

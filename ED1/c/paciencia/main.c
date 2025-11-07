@@ -1,4 +1,4 @@
-// Paciência (Klondike) em modo texto
+// Paciência em modo texto
 // Regras conforme enunciado. Implementação simples usando pilhas (arrays) e interface de terminal.
 
 #include <stdio.h>
@@ -64,13 +64,24 @@ static const char* valor_str(int v) {
 	}
 }
 
+// Símbolos dos naipes (ASCII compatível)
+static const char* naipe_simbolo(Naipe n) {
+	switch (n) {
+		case COPAS: return "C";     // Copas (vermelho)
+		case OUROS: return "O";     // Ouros (vermelho)
+		case PAUS: return "P";      // Paus (preto)
+		case ESPADAS: return "E";   // Espadas (preto)
+		default: return "?";
+	}
+}
+
 // Impressão de uma carta como texto compacto
 static void print_carta_compacta(Carta c) {
 	if (!c.faceUp) {
-		// verso com estampa '#'
+		// verso com estampa '##'
 		printf("[##]");
 	} else {
-		printf("[%s%s]", valor_str(c.valor), naipe_str(c.naipe));
+		printf("[%s%s]", valor_str(c.valor), naipe_simbolo(c.naipe));
 	}
 }
 
@@ -180,56 +191,68 @@ static bool sequencia_valida_para_mover(const Pilha *src, int qtd) {
 
 // Desenhar o layout do jogo
 static void desenhar(const Jogo *j) {
-	printf("\n=================== PACIENCIA ===================\n");
-	printf("Viradas por vez: %d\n", j->viradasPorVez);
-	printf("\n   1        2        3        4        5        6        7\n");
-	// Monte 1 (estoque): mostra apenas o verso (se existir)
-	printf(" ");
+	printf("\n");
+	printf("+================================================================+\n");
+	printf("|                    *** PACIENCIA ***                           |\n");
+	printf("|  Viradas por vez: %d                                            |\n", j->viradasPorVez);
+	printf("+================================================================+\n");
+	
+	printf("|\n");
+	printf("|  ESTOQUE        DESCARTE           FUNDACOES\n");
+	printf("|    (1)            (2)         (4)  (5)  (6)  (7)\n");
+	printf("|  ");
+	
+	// Monte 1 (estoque)
 	if (!pilha_vazia(&j->estoque)) {
-		printf(" "); print_carta_compacta((Carta){.faceUp=false});
+		print_carta_compacta((Carta){.faceUp=false});
 	} else {
-		printf(" [  ]");
+		printf("    [  ]");
 	}
-	// Monte 2 (descarte): mostra 1..3
-	printf("    ");
+	printf("            ");
+	
+	// Monte 2 (descarte): mostra 1..3 cartas
 	int nDesc = pilha_tamanho(&j->descarte);
 	int mostrar = j->viradasPorVez < nDesc ? j->viradasPorVez : nDesc;
 	if (mostrar == 0) {
 		printf("[  ]");
 	} else {
-		// mostrar últimas 'mostrar' cartas na ordem adequada (da mais antiga para a do topo)
 		int start = nDesc - mostrar;
 		for (int i = start; i < nDesc; i++) {
 			Carta c = j->descarte.itens[i];
 			print_carta_compacta(c);
-			printf(" ");
+			printf("  ");
 		}
 	}
-	// Monte 3 vazio
-	printf("     ( )   ");
-	// Fundações 4..7: mostram apenas o topo
+	printf("         ");
+	
+	// Fundações 4..7
 	for (int f = 0; f < 4; f++) {
-		printf("   ");
 		if (!pilha_vazia(&j->fund[f])) {
 			Carta c; pilha_top(&j->fund[f], &c);
 			print_carta_compacta(c);
 		} else {
 			printf("[  ]");
 		}
+		printf(" ");
 	}
-	printf("\n");
+	printf("\n|\n");
+	printf("+================================================================+\n");
+	printf("|                      TABLEAUS (21-27):\n");
+	printf("|   21       22       23       24       25       26       27\n");
+	printf("|");
 
 	// Segunda linha: 21..27 (tableau)
-	printf("\n 21       22       23       24       25       26       27\n");
-
 	// Determinar altura máxima
 	int alturas[7]; int maxAlt = 0;
-	for (int t = 0; t < 7; t++) { alturas[t] = pilha_tamanho(&j->tab[t]); if (alturas[t] > maxAlt) maxAlt = alturas[t]; }
-	// imprimir em linhas: cada linha imprime o i-ésimo cartão de cada coluna, com "deslocamento para baixo" visual (uma linha por carta)
+	for (int t = 0; t < 7; t++) { 
+		alturas[t] = pilha_tamanho(&j->tab[t]); 
+		if (alturas[t] > maxAlt) maxAlt = alturas[t]; 
+	}
+	
+	// Imprimir cada linha de cartas
 	for (int linha = 0; linha < maxAlt; linha++) {
+		printf("  ");
 		for (int t = 0; t < 7; t++) {
-			int idx = linha - (alturas[t] - (pilha_tamanho(&j->tab[t]))); // baseado do fundo para o topo
-			// Mapear: queremos imprimir do fundo (0) ao topo (alt-1)
 			int alt = alturas[t];
 			if (linha < alt) {
 				Carta c = j->tab[t].itens[linha];
@@ -237,11 +260,14 @@ static void desenhar(const Jogo *j) {
 			} else {
 				printf("    ");
 			}
-			printf("   ");
+			printf("     ");
 		}
-		printf("\n");
+		printf("\n|");
 	}
-	printf("=================================================\n\n");
+	
+	printf("\n+================================================================+\n");
+	printf("| Legenda: C=Copas | O=Ouros | P=Paus | E=Espadas |               |\n");
+	printf("+================================================================+\n\n");
 }
 
 // Mapear id do monte para ponteiro de Pilha e tipo

@@ -1,5 +1,4 @@
 // Paciência em modo texto
-// Regras conforme enunciado. Implementação simples usando pilhas (arrays) e interface de terminal.
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,25 +9,23 @@
 #define DECK_SIZE 52
 #define MAX_PILE 52
 
-// Identificadores dos montes (entradas do usuário)
 // 1: estoque (stock), 2: descarte (waste), 3: inexistente, 4-7: fundações (foundations), 21-27: colunas (tableau)
-
 typedef enum {
-	COPAS = 0, // Hearts (vermelho)
-	OUROS = 1, // Diamonds (vermelho)
-	PAUS  = 2, // Clubs (preto)
-	ESPADAS = 3 // Spades (preto)
+	COPAS = 0, 
+	OUROS = 1, 
+	PAUS  = 2, 
+	ESPADAS = 3
 } Naipe;
 
 typedef struct {
-	int valor;     // 1..13 (A=1, J=11, Q=12, K=13)
-	Naipe naipe;   // 0..3
-	bool faceUp;   // true = anverso visível
+	int valor;     
+	Naipe naipe;   
+	bool faceUp;   
 } Carta;
 
 typedef struct {
 	Carta itens[MAX_PILE];
-	int top; // índice do topo (0..n-1), -1 se vazia
+	int top; 
 } Pilha;
 
 static void pilha_init(Pilha *p) { p->top = -1; }
@@ -39,14 +36,13 @@ static bool pilha_pop(Pilha *p, Carta *out) { if (pilha_vazia(p)) return false; 
 static bool pilha_top(const Pilha *p, Carta *out) { if (pilha_vazia(p)) return false; if (out) *out = p->itens[p->top]; return true; }
 static int  pilha_tamanho(const Pilha *p) { return p->top + 1; }
 
-// Utilidades de cartas
 static bool carta_e_vermelha(Carta c) { return (c.naipe == COPAS || c.naipe == OUROS); }
 static const char* naipe_str(Naipe n) {
 	switch (n) {
-		case COPAS: return "C"; // Copas
-		case OUROS: return "O"; // Ouros
-		case PAUS: return "P";  // Paus
-		case ESPADAS: return "E"; // Espadas
+		case COPAS: return "C";
+		case OUROS: return "O"; 
+		case PAUS: return "P"; 
+		case ESPADAS: return "E"; 
 		default: return "?";
 	}
 }
@@ -64,13 +60,12 @@ static const char* valor_str(int v) {
 	}
 }
 
-// Símbolos dos naipes (ASCII compatível)
 static const char* naipe_simbolo(Naipe n) {
 	switch (n) {
-		case COPAS: return "C";     // Copas (vermelho)
-		case OUROS: return "O";     // Ouros (vermelho)
-		case PAUS: return "P";      // Paus (preto)
-		case ESPADAS: return "E";   // Espadas (preto)
+		case COPAS: return "C";     
+		case OUROS: return "O";     
+		case PAUS: return "P";      
+		case ESPADAS: return "E";   
 		default: return "?";
 	}
 }

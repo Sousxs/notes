@@ -1,5 +1,7 @@
 *.exe
 *.jar
+
 .vscode/
+.idea/
 
 *.sql

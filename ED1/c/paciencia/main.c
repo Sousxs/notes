@@ -1,5 +1,6 @@
-// Paciência em modo texto
 
+
+// Paciência em modo texto
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
